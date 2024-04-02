@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BVNViewer", "BVNViewer.csproj", "{D6F9E2CB-16E4-424E-80B2-C6574976665D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6F9E2CB-16E4-424E-80B2-C6574976665D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F9E2CB-16E4-424E-80B2-C6574976665D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F9E2CB-16E4-424E-80B2-C6574976665D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F9E2CB-16E4-424E-80B2-C6574976665D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46712882-8AA0-4007-A653-B7D2DF0CE200}
+	EndGlobalSection
+EndGlobal
