@@ -16,8 +16,11 @@ namespace BVNViewer
 
 		static readonly int[] serviceOp = { 3200 }; //список кодов операций со служебной информацией
 
+		List<BVNop>? bVNops;
+
 		//конструктор класса изделия
-		public bvnITEM(List<string> param) {  
+		public bvnITEM(List<string> param) 
+		{  
 			textProgram = param;
 			if (textProgram != null && textProgram.Count > 0)
 			{
@@ -28,11 +31,14 @@ namespace BVNViewer
 					if (i == 2 && textProgram[i - 1] != null) secondlineItem = textProgram[i - 1];
 					if (i > 2 && textProgram[i - 1] != null)
 					{
-						if (int.TryParse(textProgram[i - 1].Substring(8, 4), out codeOperations))
+						if (int.TryParse(textProgram[i - 1].Substring(7, 4), out codeOperations))
 						{
 							if (Array.IndexOf(serviceOp, codeOperations)== -1) 
 							{
 								//парсим операцию
+								if (bVNops is null) bVNops = new List<BVNop>();
+								BVNop bVNop = new BVNop(textProgram[i - 1]);
+								bVNops.Add(bVNop); 
 							} else
 							{
 								//парсим служебную информацию

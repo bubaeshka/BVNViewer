@@ -33,36 +33,33 @@ namespace BVNViewer
 				List<string> templist = new List<string>(); //временный лист строк, для хранения программы
 				do //цикл обработки файла
 				{
-					i++;  //счётчик строк 
-					if (!sr.EndOfStream) //проверка на то что файл прочитан до конца
+					i++;  //счётчик строк 		
+					line = sr.ReadLine(); //читаем текущую строку
+					if (line != null) //вдруг строка оказалась пустой? вызываем исключение. Надо ли?
 					{
-						line = sr.ReadLine(); //читаем текущую строку
-						if (line != null) //вдруг строка оказалась пустой? вызываем исключение. Надо ли?
+						if (i == 1) { firstline = line; continue; } //вытаскиваем первую строку со служебной информацией
+						if (line.Substring(0, 6).IndexOf("BVINFO") != -1) //вытаскиваем служебную информацию bvinfo
 						{
-							if (i == 1) { firstline = line; continue; } //вытаскиваем первую строку со служебной информацией
-							if (line.Substring(0, 6).IndexOf("BVINFO") != -1) //вытаскиваем служебную информацию bvinfo
-							{
-								if (bvnInfo == null)  //инициализируем поля класса
-								{ 
-									bvnInfo = new List<string>(); 
-									tehbvnInfo = new List<string>();
-								}
-								tehbvnInfo!.Add(line);  //оба списка работают вместе, второй проверять на null необязательно
-								bvnInfo.Add(line.Substring(7)); 
-								continue; //строки bvinfo не содержат код программ
+							if (bvnInfo == null)  //инициализируем поля класса
+							{ 
+								bvnInfo = new List<string>(); 
+								tehbvnInfo = new List<string>();
 							}
-							if (int.TryParse(line.Substring(0, 6), out currentProgram)) //есть ли номер текущей программы в строке?
-							{
-								if (currentProgram != oldProgram) //это новая программа?
-								{
-									newProg = true; 
-									oldProgram = currentProgram;
-								} else templist.Add(line); //это данные уже известной найденной программы
-							}
-
+							tehbvnInfo!.Add(line);  //оба списка работают вместе, второй проверять на null необязательно
+							bvnInfo.Add(line.Substring(7)); 
+							continue; //строки bvinfo не содержат код программ
 						}
-						else throw new Exception("Это не BVN - файл!");
+						if (int.TryParse(line.Substring(0, 6), out currentProgram)) //есть ли номер текущей программы в строке?
+						{
+							if (currentProgram != oldProgram) //это новая программа?
+							{
+								newProg = true; 
+								oldProgram = currentProgram;
+							} else templist.Add(line); //это данные уже известной найденной программы
+						}
+
 					}
+					else throw new Exception("Ошибка, это не BVN - файл! Код 2 - прочитана пустая строка.");
 					if (line != null && (sr.EndOfStream || newProg)) //если программа новая или последняя а файле, нам нужно её создать
 					{
 						if (templist!.Count > 0) //это не первая строка первой программы
