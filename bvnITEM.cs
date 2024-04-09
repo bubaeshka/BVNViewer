@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,8 +38,9 @@ namespace BVNViewer
 							{
 								//парсим операцию
 								if (bVNops is null) bVNops = new List<BVNop>();
-								BVNop bVNop = new BVNop(textProgram[i - 1]);
-								bVNops.Add(bVNop); 
+								////спасибо John Prick с киберфорума, научил
+								bVNops.Add(opFactory.Create(codeOperations.ToString(), textProgram[i - 1]));
+								
 							} else
 							{
 								//парсим служебную информацию

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BVNViewer
 {
-	internal class BVNop
+	public abstract class BVNop
 	{
 		public int codeop { get; }
 

@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace BVNViewer
 {
 	public partial class Form1 : Form
@@ -43,6 +45,18 @@ namespace BVNViewer
 			int z = 0;
 			z++;
 			label3.Text = z.ToString();
+		}
+
+		private void button4_Click(object sender, EventArgs e)
+		{
+			Type[] typelist = Assembly.GetExecutingAssembly().GetTypes().Where(ns => ns.Namespace == "BVNViewer").ToArray();
+
+			foreach (Type type in typelist)
+			{
+				richTextBox2.AppendText("\r\n"+type.Name);
+			}
+			int z = 0;
+			z++;
 		}
 	}
 }
