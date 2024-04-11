@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace BVNViewer
 {
-	public class _3304op : BVNop
+	public class _3200op_service : _op_service
 	{
-		public int xxx3304 { get; } 
-
-		public _3304op(string inl) : base(inl)
+		public _3200op_service(string inpl, int poz) : base(inpl, poz)
 		{
-			xxx3304 = 3304;
 		}
 	}
 }

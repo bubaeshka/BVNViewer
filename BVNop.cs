@@ -10,22 +10,23 @@ namespace BVNViewer
 {
 	public abstract class BVNop
 	{
-		public int codeop { get; }
+		public int Codeop { get; }
 
-		string lineop { get; }
+		string lineop; 
 
 		protected decimal[] param;
 
 		public BVNop(string inl) 
 		{
 			lineop = inl;
-			param = new decimal[12];
+			//param = new decimal[12];
 			int tempcode;
 			decimal temppar;
 			if (int.TryParse(lineop.Substring(7,4), out tempcode)) 
 			{
-				codeop = tempcode;
+				Codeop = tempcode;
 				string[] news = Regex.Split(lineop, @"\s+");
+				param = new decimal[news.Count()-3];
 				for (int i = 0; i < param.Length; i++)
 				{
 					if (decimal.TryParse(news[i + 2], CultureInfo.InvariantCulture, out temppar))  param[i] = temppar; 

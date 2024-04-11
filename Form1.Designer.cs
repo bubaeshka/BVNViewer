@@ -39,6 +39,8 @@
 			label4 = new Label();
 			button4 = new Button();
 			richTextBox2 = new RichTextBox();
+			textBox1 = new TextBox();
+			button5 = new Button();
 			SuspendLayout();
 			// 
 			// openFileDialog1
@@ -137,11 +139,30 @@
 			richTextBox2.TabIndex = 9;
 			richTextBox2.Text = "";
 			// 
+			// textBox1
+			// 
+			textBox1.Location = new Point(288, 244);
+			textBox1.Name = "textBox1";
+			textBox1.Size = new Size(100, 23);
+			textBox1.TabIndex = 10;
+			// 
+			// button5
+			// 
+			button5.Location = new Point(407, 244);
+			button5.Name = "button5";
+			button5.Size = new Size(75, 23);
+			button5.TabIndex = 11;
+			button5.Text = "button5";
+			button5.UseVisualStyleBackColor = true;
+			button5.Click += button5_Click;
+			// 
 			// Form1
 			// 
 			AutoScaleDimensions = new SizeF(7F, 15F);
 			AutoScaleMode = AutoScaleMode.Font;
 			ClientSize = new Size(800, 450);
+			Controls.Add(button5);
+			Controls.Add(textBox1);
 			Controls.Add(richTextBox2);
 			Controls.Add(button4);
 			Controls.Add(label4);
@@ -171,5 +192,7 @@
 		private Label label4;
 		private Button button4;
 		private RichTextBox richTextBox2;
+		private TextBox textBox1;
+		private Button button5;
 	}
 }

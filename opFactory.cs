@@ -19,5 +19,12 @@ namespace BVNViewer
 			if (type != null) return (BVNop)Activator.CreateInstance(type,inpLine)!;
 			return new _op(inpLine);
 		}
+
+		public static _op_service Create(string typeName, string inpLine, int numberstring) 
+		{
+			var type = types.FirstOrDefault(t => t.Name == "_" + typeName + "op_service");
+			if (type != null) return (_op_service)Activator.CreateInstance(type,inpLine, numberstring)!;
+			return new _otherop_service(inpLine, numberstring);
+		}
 	}
 }

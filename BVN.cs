@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
+using static BVNViewer.Func;
 
 namespace BVNViewer
 {
@@ -11,12 +12,30 @@ namespace BVNViewer
 	{
 		string? firstline; //первая строка со служебной информацией, относящейся ко всему файлу
 
-		public List<string>? bvnInfo { get; } //список строк со служебной информацией для пользователя
-		List<string>? tehbvnInfo { get; } ////список строк со служебной информацией технический, изначальный
+		//название BVN-файла
+		private string? bvnName;
 
-		public List<bvnITEM>? bvnITEMs { get; } //список изделий в файле
+		public string BvnName {
+			get => bvnName!.Trim() ?? ""; //throw new Exception("Ошибка 4. Файл-проект не сущестует.");
+			set => bvnName = setNameObject(value, bvnName, ref firstline, 20);
+				/**
+			{
+				if (firstline is null) throw new ArgumentNullException("Попытка изменить название пустого BVN");
+				if (value.Length > 20) throw new Exception("Вы задали слишком длинное имя, более 20 символов");
+				//целесообразно ли вводить новую переменную?
+				string ss = value.PadRight(20, ' ');
+				if (bvnName is not null) firstline = firstline.Replace(bvnName, ss);
+				bvnName = ss;
+			} **/
+		} 
 
-		public int count { get; } //количество изделий в файле
+		public List<string>? BvnInfo { get; } //список строк со служебной информацией для пользователя
+
+		List<string>? tehbvnInfo;  ////список строк со служебной информацией технический, изначальный
+
+		public List<bvnITEM>? bvnITEMs; //список изделий в файле
+
+		public int Сount { get; } //количество изделий в файле
 
 		//конструктор - парсер файла
 		public BVN(string filename)
@@ -28,7 +47,7 @@ namespace BVNViewer
 			{
 				string? line = null;
 				int i = 0, currentProgram = 0, oldProgram = 0;
-				count = 0; 
+				Сount = 0; 
 				bool newProg = false; //признак начала новой программы
 				List<string> templist = new List<string>(); //временный лист строк, для хранения программы
 				do //цикл обработки файла
@@ -37,16 +56,22 @@ namespace BVNViewer
 					line = sr.ReadLine(); //читаем текущую строку
 					if (line != null) //вдруг строка оказалась пустой? вызываем исключение. Надо ли?
 					{
-						if (i == 1) { firstline = line; continue; } //вытаскиваем первую строку со служебной информацией
+						//вытаскиваем первую строку со служебной информацией
+						if (i == 1) 
+						{
+							firstline = line;
+							BvnName = getNameObject(firstline, 4, 20);
+							continue; 
+						} 
 						if (line.Substring(0, 6).IndexOf("BVINFO") != -1) //вытаскиваем служебную информацию bvinfo
 						{
-							if (bvnInfo == null)  //инициализируем поля класса
+							if (BvnInfo == null)  //инициализируем поля класса
 							{ 
-								bvnInfo = new List<string>(); 
+								BvnInfo = new List<string>(); 
 								tehbvnInfo = new List<string>();
 							}
 							tehbvnInfo!.Add(line);  //оба списка работают вместе, второй проверять на null необязательно
-							bvnInfo.Add(line.Substring(7)); 
+							BvnInfo.Add(line.Substring(7)); 
 							continue; //строки bvinfo не содержат код программ
 						}
 						if (int.TryParse(line.Substring(0, 6), out currentProgram)) //есть ли номер текущей программы в строке?
@@ -68,7 +93,7 @@ namespace BVNViewer
 							if (bvnITEMs == null) bvnITEMs = new List<bvnITEM>(); //если список программ ещё не создан, создаём его
 							bvnITEMs.Add(nbvi); //добавляем в список программ только что созданную программу 
 							templist.Clear(); //очищаем временный список для новой программы
-							count++; //счётчик программ
+							Сount++; //счётчик программ
 						} 
 						templist.Add(line); //добавляем первую найденную строку первой программы в новую программу
 						newProg = false; //сбрасываем признак новой программы

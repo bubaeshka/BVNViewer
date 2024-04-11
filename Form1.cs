@@ -5,7 +5,7 @@ namespace BVNViewer
 	public partial class Form1 : Form
 	{
 		List<BVN> bvns;
-		int activeBVN = 0;
+		int activeBVN = -1;
 
 		public Form1()
 		{
@@ -21,8 +21,9 @@ namespace BVNViewer
 				{
 					BVN bvn = new BVN(openFileDialog1.FileName);
 					bvns.Add(bvn);
-					activeBVN = bvns.Count;
+					activeBVN = bvns.Count - 1;
 					label1.Text = activeBVN.ToString();
+					Text = bvns[activeBVN].BvnName;
 				}
 				catch (Exception ee)
 				{
@@ -34,9 +35,9 @@ namespace BVNViewer
 
 		private void button2_Click(object sender, EventArgs e)
 		{
-			if (activeBVN > 0)
+			if (activeBVN >= 0)
 			{
-				if (bvns[activeBVN - 1].bvnInfo != null) richTextBox1.Lines = bvns[activeBVN - 1].bvnInfo!.ToArray();
+				if (bvns[activeBVN].BvnInfo != null) richTextBox1.Lines = bvns[activeBVN].BvnInfo!.ToArray();
 			}
 		}
 
@@ -53,10 +54,19 @@ namespace BVNViewer
 
 			foreach (Type type in typelist)
 			{
-				richTextBox2.AppendText("\r\n"+type.Name);
+				richTextBox2.AppendText("\r\n" + type.Name);
 			}
 			int z = 0;
 			z++;
+		}
+
+		private void button5_Click(object sender, EventArgs e)
+		{
+			if (activeBVN >= 0)
+			{
+				bvns[activeBVN].BvnName = textBox1.Text;
+			}
+
 		}
 	}
 }
