@@ -43,8 +43,7 @@ namespace BVNViewer
 
 		private void button3_Click(object sender, EventArgs e)
 		{
-			int z = 0;
-			z++;
+			int z = bvns[activeBVN].Except();
 			label3.Text = z.ToString();
 		}
 

@@ -15,18 +15,9 @@ namespace BVNViewer
 		//название BVN-файла
 		private string? bvnName;
 
-		public string BvnName {
-			get => bvnName!.Trim() ?? ""; //throw new Exception("Ошибка 4. Файл-проект не сущестует.");
-			set => bvnName = setNameObject(value, bvnName, ref firstline, 20);
-				/**
-			{
-				if (firstline is null) throw new ArgumentNullException("Попытка изменить название пустого BVN");
-				if (value.Length > 20) throw new Exception("Вы задали слишком длинное имя, более 20 символов");
-				//целесообразно ли вводить новую переменную?
-				string ss = value.PadRight(20, ' ');
-				if (bvnName is not null) firstline = firstline.Replace(bvnName, ss);
-				bvnName = ss;
-			} **/
+		public string? BvnName {
+			get => bvnName!.Trim() ?? throw new ArgumentNullException("Ошибка 4. Файл-проект не сущестует.");
+			set => bvnName = SetBVObject(value, bvnName, ref firstline, 4, 20);
 		} 
 
 		public List<string>? BvnInfo { get; } //список строк со служебной информацией для пользователя
@@ -60,7 +51,7 @@ namespace BVNViewer
 						if (i == 1) 
 						{
 							firstline = line;
-							BvnName = getNameObject(firstline, 4, 20);
+							BvnName = GetBVObject(firstline, 4, 20);
 							continue; 
 						} 
 						if (line.Substring(0, 6).IndexOf("BVINFO") != -1) //вытаскиваем служебную информацию bvinfo
@@ -84,7 +75,7 @@ namespace BVNViewer
 						}
 
 					}
-					else throw new Exception("Ошибка, это не BVN - файл! Код 2 - прочитана пустая строка.");
+					else throw new ArgumentNullException("Ошибка, это не BVN - файл! Код 2 - прочитана пустая строка.");
 					if (line != null && (sr.EndOfStream || newProg)) //если программа новая или последняя а файле, нам нужно её создать
 					{
 						if (templist!.Count > 0) //это не первая строка первой программы
@@ -100,53 +91,12 @@ namespace BVNViewer
 					} 
 				}
 				while (!sr.EndOfStream); //поток файл кончился
-
-
-				/*
-				if ((firstline = sr.ReadLine()) == null) { throw new Exception("Это не BVN - файл!");  }
-				string? line;
-				int i = 0;
-				int currentProgram, oldProgram = 0;
-				List<string> templist = new List<string>();
-				do
-				{
-					line = sr.ReadLine();
-					if (line != null)
-					{
-						i++;
-						if (line.IndexOf("BVINFO") != -1)
-						{
-							if (bvnInfo == null) { bvnInfo = new List<string>(); }
-							bvnInfo.Add(line);
-						}
-						else if (line.IndexOf("00") != -1)
-						{
-							if (int.TryParse(line.Substring(0, 6), out currentProgram))
-							{
-								if (currentProgram != oldProgram)
-								{
-									bvnITEM nbvi = new bvnITEM(new List<string>(templist));
-									if (bvnITEMs == null) bvnITEMs = new List<bvnITEM>();
-									bvnITEMs.Add(nbvi);
-									templist.Clear();
-									templist.Add(line);
-
-									oldProgram = currentProgram;
-								}
-								else templist.Add(line);
-
-							}
-							else { throw new Exception("Это не BVN - файл!"); };
-
-						}
-					} else
-					{
-						if (templist.Count>0) 
-					}
-				} while (line != null);
-			*/
 			}
+		}
 
+		public int Except() {
+			int xxx = 0;
+			return xxx;
 		}
 	}
 }

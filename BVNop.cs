@@ -10,7 +10,7 @@ namespace BVNViewer
 {
 	public abstract class BVNop
 	{
-		public int Codeop { get; }
+		public int Codeop { get; } //код операции, он не изменяется на протяжении жизни операции
 
 		string lineop; 
 
@@ -30,12 +30,12 @@ namespace BVNViewer
 				for (int i = 0; i < param.Length; i++)
 				{
 					if (decimal.TryParse(news[i + 2], CultureInfo.InvariantCulture, out temppar))  param[i] = temppar; 
-						else throw new Exception("Ошибка в содержании BVN-файла. Код 3 - ошибка преобразования строки операции. ");  
+						else throw new ArgumentException("Ошибка в содержании BVN-файла. Код 3 - ошибка преобразования строки операции. ");  
 				}
 
 			} else
 			{
-				throw new Exception("Ошибка в содержании BVN - файла. Код 2 - операция некорректа.");
+				throw new ArgumentException("Ошибка в содержании BVN - файла. Код 2 - операция некорректа.");
 			}
 
 		}

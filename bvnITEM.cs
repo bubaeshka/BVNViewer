@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static BVNViewer.Func;
 
 namespace BVNViewer
 {
@@ -16,18 +17,53 @@ namespace BVNViewer
 
 		string? secondlineItem; //вторая строка со служебной информацией
 
-		static readonly int[] serviceOp = { 3200 }; //список кодов операций со служебной информацией
+		static readonly int[] serviceOp = { 3200, 3201, 3202 }; //список кодов операций со служебной информацией
 
 		//номер Детали
 		string? itemName;
 		
-		string ItemName 
+		public string? ItemName 
 		{ 
-			get => itemName!.Trim() ?? throw new Exception("Ошибка 5. Деталь не существует");
-			set 
+			get => itemName?.Trim() ?? throw new ArgumentNullException("Ошибка 5. Пустые имена недопустимы.");
+			set => itemName = SetBVObject(value, itemName, ref firstlineItem, 7, 20);
+		}
+
+		string? typeName;
+		public string? TypeName 
+		{
+			get => typeName?.Trim() ?? null;
+			set => typeName = SetBVObject(value, typeName, ref firstlineItem, 35, 10);
+		}
+
+		string? profile; 
+		public string? Profile 
+		{
+			get
 			{
-				
-			} 
+				int indf = -1;
+				if (opServices is not null)
+				{
+					indf = opServices.FindIndex(t => t.Codeop == 3200);
+					if (indf != -1) return ((_3200op_service)opServices[indf]).GetProfile();
+				}
+				if (profile is not null) return profile.Trim();
+				return string.Empty;
+			}
+			
+			set
+			{
+				if (value is null) profile = null;
+				else
+				{
+					int indf = -1;
+					if (opServices is not null)
+					{
+						indf = opServices.FindIndex(t => t.Codeop == 3200);
+						if (indf != -1) ((_3200op_service)opServices[indf]).SetProfile(value);
+					}
+					else if (value.Length <= 2) profile = value.PadRight(2);
+				}
+			}
 		}
 
 
@@ -38,11 +74,6 @@ namespace BVNViewer
 		//конструктор класса изделия
 		public bvnITEM(List<string> param) 
 		{  
-			///////////////////////////////////////////////////////////////////////////////////////
-			string getItemName(string templine) { return templine.Substring(7, 20); }
-
-
-			///////////////////////////////////////////////////////////////////////////////////////
 			textProgram = param;
 			if (textProgram != null && textProgram.Count > 0)
 			{
@@ -52,7 +83,9 @@ namespace BVNViewer
 					if (i == 1 && textProgram[i - 1] != null)
 					{
 						firstlineItem = textProgram[i - 1];
-						ItemName = getItemName(firstlineItem);
+						ItemName = GetBVObject(firstlineItem, 7, 20);
+						TypeName = GetBVObject(firstlineItem, 35, 10);
+						Profile = GetBVObject(firstlineItem, 46, 2);
 					}
 					if (i == 2 && textProgram[i - 1] != null) secondlineItem = textProgram[i - 1];
 					if (i > 2 && textProgram[i - 1] != null)

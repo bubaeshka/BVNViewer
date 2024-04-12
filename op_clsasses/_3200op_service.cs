@@ -11,5 +11,16 @@ namespace BVNViewer
 		public _3200op_service(string inpl, int poz) : base(inpl, poz)
 		{
 		}
+
+		public string GetProfile() 
+		{
+			//return "Борода!";
+			throw new NotImplementedException("Нужно доделывать!");
+		}
+
+		public void SetProfile(string val) 
+		{ 
+			throw new NotImplementedException("Нужно доделывать!");
+		}
 	}
 }
